@@ -1,7 +1,5 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Shared;
-using Stock.API.Consumers;
 using Stock.API.Models;
 
 
@@ -17,17 +15,10 @@ builder.Services.AddDbContext<MainDbContext>(options => options.UseInMemoryDatab
 
 builder.Services.AddMassTransit(opt =>
 {
-    opt.AddConsumer<OrderCreatedEventConsumer>();
     opt.UsingRabbitMq((context, config) =>
     {
         config.Host(builder.Configuration.GetConnectionString("RabbitMQ"));
-        config.ReceiveEndpoint(RabbitMqSettingsConst.StockOrderCreatedEventQueueName, e =>
-        {
-            e.ConfigureConsumer<OrderCreatedEventConsumer>(context);
-        });
-
     });
-    opt.AddConsumer<OrderCreatedEventConsumer>();
 });
 
 using (var serviceProvider = builder.Services.BuildServiceProvider())

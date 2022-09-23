@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.API", "Order.API\Order.API.csproj", "{F243C7D1-01ED-4F8D-AD5A-A94A330C254B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.API", "Stock.API\Stock.API.csproj", "{312FFC8B-25F0-4DB0-830F-17AE74FE4264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.API", "Stock.API\Stock.API.csproj", "{312FFC8B-25F0-4DB0-830F-17AE74FE4264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.API", "Payment.API\Payment.API.csproj", "{9CE91435-B08B-4CF1-8359-60489F6F8640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Payment.API\Payment.API.csproj", "{9CE91435-B08B-4CF1-8359-60489F6F8640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaStateMachineWorkerService", "SagaStateMachineWorkerService\SagaStateMachineWorkerService.csproj", "{FBC731FD-81F9-4D20-A121-795F6F6F2D86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9CE91435-B08B-4CF1-8359-60489F6F8640}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CE91435-B08B-4CF1-8359-60489F6F8640}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CE91435-B08B-4CF1-8359-60489F6F8640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC731FD-81F9-4D20-A121-795F6F6F2D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC731FD-81F9-4D20-A121-795F6F6F2D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC731FD-81F9-4D20-A121-795F6F6F2D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC731FD-81F9-4D20-A121-795F6F6F2D86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

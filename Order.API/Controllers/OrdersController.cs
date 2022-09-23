@@ -1,9 +1,10 @@
 ﻿using MassTransit;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Order.API.Dto;
 using Order.API.Models;
 using Shared;
+using Shared.Events;
+using Shared.Interface;
 
 namespace Order.API.Controllers
 {
@@ -13,10 +14,12 @@ namespace Order.API.Controllers
     {
         private readonly MainContext _context;
         private readonly IPublishEndpoint _publishEndpoint;
-        public OrdersController(MainContext context, IPublishEndpoint publishEndpoint)
+        private readonly ISendEndpointProvider _sendEndpointProvider;
+        public OrdersController(MainContext context, IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
         {
             _context = context;
             _publishEndpoint = publishEndpoint;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         [HttpPost]
@@ -40,7 +43,7 @@ namespace Order.API.Controllers
 
             await _context.SaveChangesAsync();
 
-            var orderCreatedEvent = new OrderCreatedEvent()
+            var orderCreatedRequestEvent = new OrderCreateRequestEvent()
             {
                 BuyerId = orderCreate.BuyerId,
                 OrderId = newOrder.Id,
@@ -53,14 +56,12 @@ namespace Order.API.Controllers
                     TotalPrice = orderCreate.orderItems.Sum(x => x.Price * x.Count)
                 },
             };
-
             orderCreate.orderItems.ForEach(item =>
             {
-                orderCreatedEvent.orderItems.Add(new OrderItemMessage { Count = item.Count, ProductId = item.ProductId });
+                orderCreatedRequestEvent.OrderItemMessages.Add(new OrderItemMessage { Count = item.Count, ProductId = item.ProductId });
             });
-
-            await _publishEndpoint.Publish(orderCreatedEvent);
-
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMqSettingsConst.OrderSaga}"));
+            await sendEndpoint.Send<IOrderCreatedRequestEvent>(orderCreatedRequestEvent);
             return Ok();
         }
     }
